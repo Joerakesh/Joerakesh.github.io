@@ -1,0 +1,326 @@
+@import url("https://rsms.me/inter/inter.css");
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 222.2 84% 4.9%;
+    --card: 0 0% 100%;
+    --card-foreground: 222.2 84% 4.9%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 222.2 84% 4.9%;
+    --primary: 260 85% 75%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 260 85% 55%;
+    --secondary-foreground: 0 0% 100%;
+    --muted: 210 40% 96.1%;
+    --muted-foreground: 215.4 16.3% 46.9%;
+    --accent: 260 85% 75%;
+    --accent-foreground: 0 0% 100%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 214.3 31.8% 91.4%;
+    --input: 214.3 31.8% 91.4%;
+    --ring: 260 85% 75%;
+    --radius: 0.5rem;
+  }
+
+  body.light {
+    @apply bg-white text-slate-800 antialiased transition-colors duration-300;
+    background-image: radial-gradient(
+      circle at 50% 0%,
+      rgba(155, 135, 245, 0.06),
+      transparent 70%
+    );
+    background-size: 100% 100%;
+    background-position: center;
+    background-repeat: no-repeat;
+  }
+
+  body.dark {
+    @apply bg-dark text-white antialiased transition-colors duration-300;
+    background-image: radial-gradient(
+      circle at 50% 0%,
+      rgba(155, 135, 245, 0.08),
+      transparent 70%
+    );
+    background-size: 100% 100%;
+    background-position: center;
+    background-repeat: no-repeat;
+  }
+
+  ::selection {
+    @apply bg-primary text-white;
+  }
+}
+
+/* Light and dark theme nav styles */
+.glass-nav {
+  background: rgba(26, 31, 44, 0.8);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid rgba(155, 135, 245, 0.1);
+}
+
+body.light .glass-nav {
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid rgba(155, 135, 245, 0.1);
+}
+
+/* Animation utilities for the mobile menu and scroll animations */
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fade-out {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes slide-in {
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes scale-in {
+  0% {
+    transform: scale(0.8);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.animate-fade-in {
+  animation: fade-in 0.3s ease forwards;
+}
+
+.animate-slide-in {
+  animation: slide-in 0.5s ease forwards;
+}
+
+.animate-scale-in {
+  animation: scale-in 0.5s ease-out forwards;
+}
+
+/* Transition delay classes for staggered animations */
+.transition-delay-0 {
+  transition-delay: 0ms;
+}
+
+.transition-delay-75 {
+  transition-delay: 75ms;
+}
+
+.transition-delay-150 {
+  transition-delay: 150ms;
+}
+
+.transition-delay-225 {
+  transition-delay: 225ms;
+}
+
+.transition-delay-300 {
+  transition-delay: 300ms;
+}
+
+.transition-delay-375 {
+  transition-delay: 375ms;
+}
+
+/* Scroll animation classes */
+.scroll-reveal {
+  transition: opacity 0.6s ease-out, transform 0.8s ease-out;
+}
+
+.scroll-reveal-right {
+  transition: opacity 0.6s ease-out, transform 0.8s ease-out;
+  transform: translateX(30px);
+}
+
+.scroll-reveal-left {
+  transition: opacity 0.6s ease-out, transform 0.8s ease-out;
+  transform: translateX(-30px);
+}
+
+.scroll-reveal-stagger > * {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.6s ease-out, transform 0.8s ease-out;
+}
+
+/* Light theme overrides */
+body.light .bg-dark {
+  @apply bg-white;
+}
+
+body.light .bg-dark-light {
+  @apply bg-slate-50;
+}
+
+body.light .text-white {
+  @apply text-slate-800;
+}
+
+body.light .text-white\/80,
+body.light .text-white\/70 {
+  @apply text-slate-600;
+}
+
+body.light .text-neutral {
+  @apply text-slate-500;
+}
+
+body.light .text-neutral-light {
+  @apply text-slate-600;
+}
+
+body.light .border-primary\/10 {
+  @apply border-primary/20;
+}
+
+body.light .neon-text {
+  text-shadow: 0 0 3px rgba(155, 135, 245, 0.3),
+    0 0 7px rgba(155, 135, 245, 0.2);
+}
+
+body.light .neon-box {
+  box-shadow: 0 0 3px rgba(155, 135, 245, 0.3),
+    0 0 10px rgba(155, 135, 245, 0.2);
+}
+
+/* Smooth scrolling */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Progress bar styling for skills section */
+.progress::-webkit-progress-value {
+  background-color: theme("colors.primary.DEFAULT");
+}
+
+.progress::-webkit-progress-bar {
+  background-color: theme("colors.dark.light");
+}
+
+body.light .progress::-webkit-progress-bar {
+  background-color: theme("colors.slate.200");
+}
+
+/* Neon effects */
+.neon-text {
+  text-shadow: 0 0 5px rgba(155, 135, 245, 0.5),
+    0 0 10px rgba(155, 135, 245, 0.3);
+}
+
+.neon-box {
+  box-shadow: 0 0 5px rgba(155, 135, 245, 0.5),
+    0 0 15px rgba(155, 135, 245, 0.3);
+}
+
+.neon-border {
+  position: relative;
+}
+
+.neon-border::after {
+  content: "";
+  position: absolute;
+  inset: -2px;
+  border-radius: inherit;
+  z-index: -1;
+  background: linear-gradient(120deg, #9b87f5, #d6bcfa, #7e69ab);
+  opacity: 0.5;
+  filter: blur(5px);
+}
+
+/* Animations */
+@keyframes float {
+  0% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+  100% {
+    transform: translateY(0px);
+  }
+}
+
+.float-animation {
+  animation: float 5s ease-in-out infinite;
+}
+
+/* Card hover effects */
+.card-hover {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card-hover:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 25px -5px rgba(155, 135, 245, 0.4);
+}
+
+/* Button hover effects */
+.button-glow {
+  position: relative;
+  z-index: 1;
+  overflow: hidden;
+}
+
+.button-glow::after {
+  content: "";
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(
+    120deg,
+    transparent,
+    rgba(155, 135, 245, 0.4),
+    transparent
+  );
+  transform: rotate(45deg);
+  opacity: 0;
+  transition: opacity 0.3s;
+  z-index: -1;
+}
+
+.button-glow:hover::after {
+  opacity: 1;
+  animation: shine 1.5s ease-in-out;
+}
+
+@keyframes shine {
+  0% {
+    left: -200%;
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    left: 100%;
+    opacity: 0;
+  }
+}
+
