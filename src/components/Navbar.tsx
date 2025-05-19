@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
@@ -14,12 +13,12 @@ const Navbar = () => {
 
   useEffect(() => {
     // Check if user has a theme preference
-    const savedTheme = localStorage.getItem('theme');
-    if (savedTheme === 'light') {
+    const savedTheme = localStorage.getItem("theme");
+    if (savedTheme === "light") {
       setIsLightTheme(true);
-      document.body.classList.add('light');
+      document.body.classList.add("light");
     } else {
-      document.body.classList.add('dark');
+      document.body.classList.add("dark");
     }
 
     const handleScroll = () => {
@@ -36,13 +35,13 @@ const Navbar = () => {
 
   const toggleTheme = () => {
     if (isLightTheme) {
-      document.body.classList.remove('light');
-      document.body.classList.add('dark');
-      localStorage.setItem('theme', 'dark');
+      document.body.classList.remove("light");
+      document.body.classList.add("dark");
+      localStorage.setItem("theme", "dark");
     } else {
-      document.body.classList.remove('dark');
-      document.body.classList.add('light');
-      localStorage.setItem('theme', 'light');
+      document.body.classList.remove("dark");
+      document.body.classList.add("light");
+      localStorage.setItem("theme", "light");
     }
     setIsLightTheme(!isLightTheme);
   };
@@ -61,27 +60,29 @@ const Navbar = () => {
       }`}
     >
       <div className="container mx-auto flex justify-between items-center">
-        <Link
-          to="/"
-          className="text-xl font-bold text-primary neon-text"
-        >
+        <Link to="/" className="text-xl font-bold text-primary neon-text">
           Joe Rakesh A
         </Link>
 
         <nav className="hidden md:block">
           <ul className="flex gap-8">
-            {["Home", "About", "Skills", "Projects", "Education"].map(
-              (item) => (
-                <li key={item}>
-                  <a
-                    href={`#${item.toLowerCase()}`}
-                    className="text-foreground/80 hover:text-primary transition-colors"
-                  >
-                    {item}
-                  </a>
-                </li>
-              )
-            )}
+            {[
+              "Home",
+              "About",
+              "Skills",
+              "Education",
+              "Projects",
+              "Achievements",
+            ].map((item) => (
+              <li key={item}>
+                <a
+                  href={`#${item.toLowerCase()}`}
+                  className="text-foreground/80 hover:text-primary transition-colors"
+                >
+                  {item}
+                </a>
+              </li>
+            ))}
           </ul>
         </nav>
 
@@ -117,11 +118,11 @@ const Navbar = () => {
       </div>
 
       {/* Mobile menu with improved blur background and animations */}
-      <div 
+      <div
         className={cn(
           "md:hidden fixed inset-0 z-40 transition-all duration-300",
-          isOpen 
-            ? "opacity-100 pointer-events-auto" 
+          isOpen
+            ? "opacity-100 pointer-events-auto"
             : "opacity-0 pointer-events-none"
         )}
         aria-hidden={!isOpen}
@@ -130,17 +131,17 @@ const Navbar = () => {
           top: 0,
           left: 0,
           width: "100%",
-          height: "100vh"
+          height: "100vh",
         }}
       >
-        <div 
+        <div
           className={cn(
             "absolute inset-0 bg-background/60 backdrop-blur-xl transition-opacity duration-300",
             isOpen ? "opacity-100" : "opacity-0"
           )}
         />
-        
-        <div 
+
+        <div
           className={cn(
             "absolute top-[4.5rem] left-0 w-full bg-card/60 backdrop-blur-xl border-t border-primary/10 transition-all duration-500 overflow-hidden",
             isOpen ? "max-h-[calc(100vh-4.5rem)]" : "max-h-0"
@@ -149,16 +150,18 @@ const Navbar = () => {
           <ul className="container mx-auto space-y-4 px-4 py-4">
             {["Home", "About", "Skills", "Projects", "Education"].map(
               (item, index) => (
-                <li 
+                <li
                   key={item}
                   className={cn(
                     "transform transition-all duration-300",
-                    isOpen ? "translate-y-0 opacity-100" : "translate-y-4 opacity-0",
+                    isOpen
+                      ? "translate-y-0 opacity-100"
+                      : "translate-y-4 opacity-0",
                     // Staggered animation delay
                     isOpen && `transition-delay-${index * 75}`
                   )}
-                  style={{ 
-                    transitionDelay: isOpen ? `${index * 75}ms` : '0ms' 
+                  style={{
+                    transitionDelay: isOpen ? `${index * 75}ms` : "0ms",
                   }}
                 >
                   <a
@@ -171,13 +174,15 @@ const Navbar = () => {
                 </li>
               )
             )}
-            <li 
+            <li
               className={cn(
                 "transform transition-all duration-300",
-                isOpen ? "translate-y-0 opacity-100" : "translate-y-4 opacity-0",
+                isOpen
+                  ? "translate-y-0 opacity-100"
+                  : "translate-y-4 opacity-0",
                 isOpen && "transition-delay-[375ms]"
               )}
-              style={{ transitionDelay: isOpen ? '375ms' : '0ms' }}
+              style={{ transitionDelay: isOpen ? "375ms" : "0ms" }}
             >
               <Button
                 className="w-full bg-primary hover:bg-primary/90 mt-2"
