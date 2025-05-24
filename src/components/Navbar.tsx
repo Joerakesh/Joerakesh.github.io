@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
@@ -72,6 +73,7 @@ const Navbar = () => {
               "Skills",
               "Education",
               "Projects",
+              "Certifications",
               "Achievements",
             ].map((item) => (
               <li key={item}>
@@ -139,6 +141,10 @@ const Navbar = () => {
             "absolute inset-0 bg-background/60 backdrop-blur-xl transition-opacity duration-300",
             isOpen ? "opacity-100" : "opacity-0"
           )}
+          style={{
+            backdropFilter: "blur(20px)",
+            background: "rgba(26, 31, 44, 0.9)"
+          }}
         />
 
         <div
@@ -146,9 +152,13 @@ const Navbar = () => {
             "absolute top-[4.5rem] left-0 w-full bg-card/60 backdrop-blur-xl border-t border-primary/10 transition-all duration-500 overflow-hidden",
             isOpen ? "max-h-[calc(100vh-4.5rem)]" : "max-h-0"
           )}
+          style={{
+            backdropFilter: "blur(20px)",
+            background: "rgba(26, 31, 44, 0.95)"
+          }}
         >
           <ul className="container mx-auto space-y-4 px-4 py-4">
-            {["Home", "About", "Skills", "Projects", "Education"].map(
+            {["Home", "About", "Skills", "Projects", "Education", "Certifications"].map(
               (item, index) => (
                 <li
                   key={item}
@@ -180,9 +190,9 @@ const Navbar = () => {
                 isOpen
                   ? "translate-y-0 opacity-100"
                   : "translate-y-4 opacity-0",
-                isOpen && "transition-delay-[375ms]"
+                isOpen && "transition-delay-[450ms]"
               )}
-              style={{ transitionDelay: isOpen ? "375ms" : "0ms" }}
+              style={{ transitionDelay: isOpen ? "450ms" : "0ms" }}
             >
               <Button
                 className="w-full bg-primary hover:bg-primary/90 mt-2"
