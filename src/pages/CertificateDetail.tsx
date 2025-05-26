@@ -15,6 +15,26 @@ import { useToast } from "@/hooks/use-toast";
 
 const certificationsData = [
   {
+    id: "chatgpt-web-developers",
+    title: "ChatGPT for Web Developers",
+    issuer: "LinkedIn",
+    date: "2024",
+    image: "/Certifications/chatgpt-web-developers.jpeg",
+    skills: ["Web Development", "ChatGPT"],
+    description:
+      "Learned to use ChatGPT to generate and optimize web code, enhance UI with CSS, and build AI-powered apps using JavaScript and React.",
+    credentialId:
+      "c5c454abec61af420b66faa15bf7230a4bf1113fe8b994f6891314d5918385a4",
+    status: "Completed",
+    personalNote:
+      "Really interesting course—I took notes on how to use ChatGPT to streamline front-end development tasks, write cleaner JavaScript, and even prototype full components in React. The sections on AI-assisted debugging and CSS styling shortcuts were especially practical.",
+    completionDate: "July 11, 2024",
+    validUntil: "Lifetime",
+    courseHours: "2 hours 29 minutes",
+    certUrl:
+      "https://www.linkedin.com/learning/certificates/c5c454abec61af420b66faa15bf7230a4bf1113fe8b994f6891314d5918385a4?lipi=urn%3Ali%3Apage%3Ad_flagship3_profile_view_base_certifications_details%3BNicBxWcmRmyyBP%2FNsJBkEQ%3D%3D",
+  },
+  {
     id: "microsoft-career-essentials",
     title:
       "Career Essentials in Software Development by Microsoft and LinkedIn",
@@ -28,7 +48,7 @@ const certificationsData = [
       "fffd0e8209c878c0ef3d38081d5c1ce4fb48ef5037303bc242ab57ebfec41e2a",
     status: "Completed",
     personalNote:
-      "An intensive journey that transformed me from a beginner to a confident full-stack developer. The practical projects and mentorship were invaluable.",
+      "Took detailed notes on software development fundamentals, debugging techniques, and programming best practices. The practical projects helped reinforce key concepts like modular coding and clean architecture. The real value came from seeing how these skills apply across both front-end and back-end development.",
     completionDate: "July 17, 2024",
     validUntil: "Lifetime",
     courseHours: "8 hours 20 minutes",
@@ -36,24 +56,24 @@ const certificationsData = [
       "https://www.linkedin.com/learning/certificates/fffd0e8209c878c0ef3d38081d5c1ce4fb48ef5037303bc242ab57ebfec41e2a",
   },
   {
-    id: "chatgpt-web-developers",
-    title: "ChatGPT for Web Developers",
-    issuer: "LinkedIn",
-    date: "2024",
-    image: "/Certifications/chatgpt-web-developers.jpeg",
-    skills: ["Web Development", "ChatGPT"],
+    id: "github-professional-certificate",
+    title: "Career Essentials in GitHub Professional Certificate",
+    issuer: "GitHub & LinkedIn",
+    date: "2025",
+    image: "/Certifications/github-professional-certificate.jpeg",
+    skills: ["GitHub", "Version Control"],
     description:
-      "Learned to use ChatGPT to generate and optimize web code, enhance UI with CSS, and build AI-powered apps using JavaScript and React.",
+      "Hands-on program covering GitHub fundamentals, version control concepts, collaborative workflows, and industry best practices for modern software development.",
     credentialId:
-      "c5c454abec61af420b66faa15bf7230a4bf1113fe8b994f6891314d5918385a4",
+      "8c93ad5893f125dfb7cc8876bd43e6f710b47226d791afddccd06ac0b8655728",
     status: "Completed",
     personalNote:
-      "This course elevated my JavaScript skills to an advanced level. Learning about design patterns and performance optimization was particularly valuable.",
-    completionDate: "July 11, 2024",
+      "Really insightful course—took a lot of notes on branching strategies, pull request workflows, and how teams manage collaboration on GitHub. The section on handling merge conflicts and reviewing code effectively stood out the most to me.",
+    completionDate: "May 26, 2025",
     validUntil: "Lifetime",
-    courseHours: "2 hours 29 minutes",
+    courseHours: "4 hours 18 minutes",
     certUrl:
-      "https://www.linkedin.com/learning/certificates/c5c454abec61af420b66faa15bf7230a4bf1113fe8b994f6891314d5918385a4?lipi=urn%3Ali%3Apage%3Ad_flagship3_profile_view_base_certifications_details%3BNicBxWcmRmyyBP%2FNsJBkEQ%3D%3D",
+      "https://www.linkedin.com/learning/certificates/8c93ad5893f125dfb7cc8876bd43e6f710b47226d791afddccd06ac0b8655728",
   },
 ];
 

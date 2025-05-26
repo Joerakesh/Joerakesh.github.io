@@ -34,6 +34,19 @@ const certificationsData = [
       "fffd0e8209c878c0ef3d38081d5c1ce4fb48ef5037303bc242ab57ebfec41e2a",
     status: "Completed",
   },
+  {
+    id: "github-professional-certificate",
+    title: "Career Essentials in GitHub Professional Certificate",
+    issuer: "GitHub & LinkedIn",
+    date: "2025",
+    image: "/Certifications/github-professional-certificate.jpeg",
+    skills: ["GitHub", "Version Control"],
+    description:
+      "Hands-on program covering GitHub fundamentals, version control concepts, collaborative workflows, and industry best practices for modern software development.",
+    credentialId:
+      "8c93ad5893f125dfb7cc8876bd43e6f710b47226d791afddccd06ac0b8655728",
+    status: "Completed",
+  },
 ];
 
 const Certifications = () => {
