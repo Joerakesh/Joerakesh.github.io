@@ -83,7 +83,7 @@ const Certifications = () => {
                       alt={cert.title}
                       className="w-full h-48 group-hover:scale-105 transition-transform duration-500"
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-dark-light/100 via-transparent to-transparent" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-dark-light/80 via-transparent to-transparent" />
                     <div className="absolute bottom-4 left-4 right-4">
                       <div className="flex items-center gap-2 text-white/80 text-sm mb-1">
                         <Calendar className="w-4 h-4" />
