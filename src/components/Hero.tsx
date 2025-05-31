@@ -53,8 +53,8 @@ const Hero = () => {
             </span>
           </h1>
           <p className="text-lg text-foreground/80 max-w-md">
-            I build modern, responsive web applications with cutting-edge
-            technologies. Let's create something amazing together.
+            A Passionate Full Stack Web Developer specializing in building
+            responsive and user-centric web applications.
           </p>
           <div className="flex flex-col sm:flex-row items-center gap-4">
             <Button
