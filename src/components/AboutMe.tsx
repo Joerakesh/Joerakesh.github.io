@@ -113,7 +113,7 @@ const AboutMe = () => {
             {[
               { title: "1+", desc: "Years of Experience" },
               { title: "5+", desc: "Projects Completed" },
-              { title: "2+", desc: "Happy Clients" },
+              { title: "3+", desc: "Happy Clients" },
               { title: "100%", desc: "Client Satisfaction" },
             ].map((stat, index) => (
               <div

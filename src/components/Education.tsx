@@ -72,7 +72,7 @@ const Education = () => {
                 Government High School, Palayanur
               </p>
               <div className="flex items-center gap-4 mb-2">
-                <span className="text-white/80">All Pass</span>
+                {/* <span className="text-white/80">All Pass</span> */}
                 <span className="px-2 py-1 bg-primary/20 text-primary text-xs rounded">
                   Mathematics, Science & Social Science
                 </span>
