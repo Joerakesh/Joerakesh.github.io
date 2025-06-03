@@ -1,7 +1,15 @@
 import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { ArrowLeft, MapPin, Code, Briefcase, GraduationCap, Target, Heart } from "lucide-react";
+import {
+  ArrowLeft,
+  MapPin,
+  Code,
+  Briefcase,
+  GraduationCap,
+  Target,
+  Heart,
+} from "lucide-react";
 import Chatbot from "@/components/Chatbot";
 
 const About = () => {
@@ -35,7 +43,7 @@ const About = () => {
       icon: Code,
     },
     {
-      year: "2004",
+      year: "2006",
       title: "Born",
       company: "Tamil Nadu",
       description:
@@ -48,7 +56,10 @@ const About = () => {
     <div className="min-h-screen bg-background">
       <header className="py-8 px-4">
         <div className="container mx-auto">
-          <Link to="/" className="inline-flex items-center text-lg text-primary">
+          <Link
+            to="/"
+            className="inline-flex items-center text-lg text-primary"
+          >
             <ArrowLeft className="mr-2 h-5 w-5" />
             Back to Home
           </Link>
@@ -69,10 +80,10 @@ const About = () => {
               </p>
               <p className="text-lg text-foreground/80 mb-6">
                 I am currently pursuing a Bachelor of Computer Applications at
-                St. Joseph's College, Trichy, where I am honing my skills in
-                web development and programming. I am also freelancing as a
-                full stack web developer, building web applications and
-                providing web solutions for clients.
+                St. Joseph's College, Trichy, where I am honing my skills in web
+                development and programming. I am also freelancing as a full
+                stack web developer, building web applications and providing web
+                solutions for clients.
               </p>
               <p className="text-lg text-foreground/80">
                 I am always eager to learn new technologies and techniques to
