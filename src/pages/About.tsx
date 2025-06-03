@@ -94,7 +94,7 @@ const About = () => {
             </div>
             <div>
               <img
-                src="/about-image.jpg"
+                src="/Joe.jpg"
                 alt="About Me"
                 className="rounded-lg shadow-lg"
               />
