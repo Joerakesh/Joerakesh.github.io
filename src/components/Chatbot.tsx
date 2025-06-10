@@ -1,7 +1,8 @@
+
 import { useState, useRef, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { MessageCircle, X, Send, Bot, User, Minimize2, Maximize2, Copy, RefreshCw, ThumbsUp, ThumbsDown } from "lucide-react";
+import { MessageCircle, X, Send, Bot, User, Minimize2, Maximize2, Copy, RefreshCw, ThumbsUp, ThumbsDown, ExternalLink } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { cn } from "@/lib/utils";
 import { useToast } from "@/hooks/use-toast";
@@ -12,6 +13,10 @@ interface Message {
   sender: "user" | "bot";
   timestamp: Date;
   rating?: "up" | "down";
+  navigationButton?: {
+    text: string;
+    sectionId: string;
+  };
 }
 
 const Chatbot = () => {
@@ -39,45 +44,108 @@ const Chatbot = () => {
     scrollToBottom();
   }, [messages]);
 
-  const getBotResponse = (userMessage: string): string => {
+  const scrollToSection = (sectionId: string) => {
+    const section = document.getElementById(sectionId);
+    if (section) {
+      section.scrollIntoView({ behavior: 'smooth' });
+      setIsOpen(false); // Close chatbot when navigating
+    }
+  };
+
+  const getBotResponse = (userMessage: string): { text: string; navigationButton?: { text: string; sectionId: string } } => {
     const message = userMessage.toLowerCase();
+    
     if (message.includes("skill") || message.includes("technology") || message.includes("tech")) {
-      return "Joe specializes in full-stack development! 💻 His main skills include:\n• React & TypeScript - Advanced level\n• Node.js & MongoDB - Experienced\n• Docker & Git - Proficient\n• Modern web development tools\n• Responsive design & UI/UX\n\nCheck out the Skills section for a complete overview with detailed progress bars!";
+      return {
+        text: "Joe specializes in full-stack development! 💻 His main skills include:\n• React & TypeScript - Advanced level\n• Node.js & MongoDB - Experienced\n• Docker & Git - Proficient\n• Modern web development tools\n• Responsive design & UI/UX\n\nCheck out the Skills section for a complete overview with detailed progress bars!",
+        navigationButton: { text: "Go to Skills", sectionId: "skills" }
+      };
     }
+    
     if (message.includes("project") || message.includes("work") || message.includes("portfolio")) {
-      return "Joe has worked on some amazing projects! 🚀 Including:\n• AI Interview System - Advanced AI-powered interview platform\n• Movie Applications - React-based movie discovery apps\n• Web Development Projects - Modern responsive websites\n• Full-stack applications with database integration\n\nVisit the Projects section to see detailed case studies with live demos and GitHub links!";
+      return {
+        text: "Joe has worked on some amazing projects! 🚀 Including:\n• AI Interview System - Advanced AI-powered interview platform\n• Movie Applications - React-based movie discovery apps\n• Web Development Projects - Modern responsive websites\n• Full-stack applications with database integration\n\nVisit the Projects section to see detailed case studies with live demos and GitHub links!",
+        navigationButton: { text: "Go to Projects", sectionId: "projects" }
+      };
     }
+    
     if (message.includes("education") || message.includes("study") || message.includes("college") || message.includes("school")) {
-      return "Joe's educational journey includes:\n🎓 Bachelor of Computer Applications at St. Joseph's College, Trichy (2023-2026) - Current CGPA: 8.5\n📚 Higher Secondary at Velammal Matric Hr. Sec. School (2021-2023) - 78%\n📖 Secondary School at Velammal Matric Hr. Sec. School (2020-2021) - 85%\n💡 Continuous learning in modern web technologies and industry best practices";
+      return {
+        text: "Joe's educational journey includes:\n\n🎓 **Bachelor of Computer Applications** (2023-2026)\n📍 St. Joseph's College, Trichy\n📊 Current CGPA: 8.5\n🔬 Specialized in Advanced Web Technologies and Programming Languages\n\n🎓 **Higher Secondary (XII) - Computer Science** (2021-2023)\n📍 Adaikala Annai Higher Secondary School, Viriyur\n📊 Grade: 75%\n💻 Focused on Computer Science fundamentals, programming basics, and mathematics\n\n🎓 **Secondary (X) - SSLC** (2020-2021)\n📍 Government High School, Palayanur\n📊 All Pass\n📚 Strong foundation in Science, Mathematics, and English\n\nClick below to view the detailed education timeline!",
+        navigationButton: { text: "Go to Education", sectionId: "education" }
+      };
     }
+    
     if (message.includes("contact") || message.includes("reach") || message.includes("email") || message.includes("hire")) {
-      return "Ready to connect with Joe? 📬 Multiple ways to reach out:\n• Fill out the contact form on this website\n• Connect on LinkedIn and GitHub\n• Download his comprehensive resume\n• Email directly through the contact section\n\nJoe is actively looking for opportunities and responds quickly to messages!";
+      return {
+        text: "Ready to connect with Joe? 📬 Multiple ways to reach out:\n• Fill out the contact form on this website\n• Connect on LinkedIn and GitHub\n• Download his comprehensive resume\n• Email directly through the contact section\n\nJoe is actively looking for opportunities and responds quickly to messages!",
+        navigationButton: { text: "Go to Contact", sectionId: "contact" }
+      };
     }
-    if (message.includes("experience") || message.includes("background") || message.includes("intern")) {
-      return "Joe brings valuable experience! 💪\n• Web Development Intern at Edubridge India (2022)\n• 1+ years of passionate full-stack development\n• Built multiple production applications\n• Strong expertise in React ecosystem\n• Proven track record with modern web technologies\n• Always eager to learn and adapt to new challenges";
+    
+    if (message.includes("about") || message.includes("who") || message.includes("background") || message.includes("bio")) {
+      return {
+        text: "Joe Rakesh A is a passionate Full Stack Developer! 🌟\n• 3rd year BCA student at St. Joseph's College, Trichy\n• 1+ years of hands-on development experience\n• Specialized in React, TypeScript, and modern web technologies\n• Built multiple production applications\n• Always eager to learn and take on new challenges\n\nLearn more about his journey and passion for technology!",
+        navigationButton: { text: "Go to About", sectionId: "about" }
+      };
     }
+    
     if (message.includes("certificate") || message.includes("certification")) {
-      return "Joe has earned several professional certifications! 🏆\n• ChatGPT for Web Developers\n• GitHub Professional Certificate\n• Microsoft Career Essentials\n• Various web development certifications\n\nCheck out the Certifications section to see all his verified credentials!";
+      return {
+        text: "Joe has earned several professional certifications! 🏆\n• ChatGPT for Web Developers\n• GitHub Professional Certificate\n• Microsoft Career Essentials\n• Various web development certifications\n\nCheck out the Certifications section to see all his verified credentials!",
+        navigationButton: { text: "Go to Certifications", sectionId: "certifications" }
+      };
     }
+    
     if (message.includes("achievement") || message.includes("award")) {
-      return "Joe has accomplished great things! 🌟\n• Multiple successful project deployments\n• Strong academic performance\n• Professional certifications completed\n• Growing portfolio of web applications\n\nVisit the Achievements section for detailed accomplishments!";
+      return {
+        text: "Joe has accomplished great things! 🌟\n• Multiple successful project deployments\n• Strong academic performance\n• Professional certifications completed\n• Growing portfolio of web applications\n\nVisit the Achievements section for detailed accomplishments!",
+        navigationButton: { text: "Go to Achievements", sectionId: "achievements" }
+      };
     }
+    
+    if (message.includes("experience") || message.includes("intern")) {
+      return {
+        text: "Joe brings valuable experience! 💪\n• Web Development Intern at Edubridge India (2022)\n• 1+ years of passionate full-stack development\n• Built multiple production applications\n• Strong expertise in React ecosystem\n• Proven track record with modern web technologies\n• Always eager to learn and adapt to new challenges",
+        navigationButton: { text: "Go to About", sectionId: "about" }
+      };
+    }
+    
     if (message.includes("hello") || message.includes("hi") || message.includes("hey") || message.includes("good")) {
-      return "Hello there! 😊 Great to meet you! I'm here to help you discover everything about Joe Rakesh A. Whether you're interested in his technical skills, exciting projects, educational background, or professional experience - just ask away! Feel free to use the quick questions below or ask anything specific.";
+      return {
+        text: "Hello there! 😊 Great to meet you! I'm here to help you discover everything about Joe Rakesh A. Whether you're interested in his technical skills, exciting projects, educational background, or professional experience - just ask away! Feel free to use the quick questions below or ask anything specific."
+      };
     }
+    
     if (message.includes("thank") || message.includes("thanks")) {
-      return "You're absolutely welcome! 🌟 Is there anything else you'd like to explore about Joe's portfolio? I'm here to help and provide detailed information about any aspect of his work or background!";
+      return {
+        text: "You're absolutely welcome! 🌟 Is there anything else you'd like to explore about Joe's portfolio? I'm here to help and provide detailed information about any aspect of his work or background!"
+      };
     }
+    
     if (message.includes("resume") || message.includes("cv")) {
-      return "You can download Joe's comprehensive resume directly from this website! 📄 Look for the download button in the hero section. It includes all his skills, projects, education, and experience in a professional format.";
+      return {
+        text: "You can download Joe's comprehensive resume directly from this website! 📄 Look for the download button in the hero section. It includes all his skills, projects, education, and experience in a professional format."
+      };
     }
+    
     if (message.includes("location") || message.includes("where")) {
-      return "Joe is based in Tamil Nadu, India 🇮🇳 and is open to both local and remote opportunities worldwide! He's flexible with time zones and has experience working with international teams.";
+      return {
+        text: "Joe is based in Tamil Nadu, India 🇮🇳 and is open to both local and remote opportunities worldwide! He's flexible with time zones and has experience working with international teams.",
+        navigationButton: { text: "Go to Contact", sectionId: "contact" }
+      };
     }
+    
     if (message.includes("github") || message.includes("code") || message.includes("repository")) {
-      return "Check out Joe's GitHub profile to see his code! 💻 You'll find:\n• Open source projects\n• Code samples and repositories\n• Contribution history\n• Active development work\n\nLinks are available in the contact section and project details!";
+      return {
+        text: "Check out Joe's GitHub profile to see his code! 💻 You'll find:\n• Open source projects\n• Code samples and repositories\n• Contribution history\n• Active development work\n\nLinks are available in the contact section and project details!",
+        navigationButton: { text: "Go to Contact", sectionId: "contact" }
+      };
     }
-    return "That's a great question! 🤔 I'd love to help you learn more about Joe. You can explore:\n• His technical skills and expertise levels\n• Exciting projects with live demos\n• Educational background and certifications\n• Professional experience and achievements\n• Contact information and resume\n\nWhat interests you most? Feel free to ask specific questions!";
+    
+    return {
+      text: "That's a great question! 🤔 I'd love to help you learn more about Joe. You can explore:\n• His technical skills and expertise levels\n• Exciting projects with live demos\n• Educational background and certifications\n• Professional experience and achievements\n• Contact information and resume\n\nWhat interests you most? Feel free to ask specific questions!"
+    };
   };
 
   const handleSendMessage = async () => {
@@ -97,11 +165,13 @@ const Chatbot = () => {
 
     // Simulate typing delay
     setTimeout(() => {
+      const response = getBotResponse(inputMessage);
       const botResponse: Message = {
         id: (Date.now() + 1).toString(),
-        text: getBotResponse(inputMessage),
+        text: response.text,
         sender: "bot",
-        timestamp: new Date()
+        timestamp: new Date(),
+        navigationButton: response.navigationButton
       };
       setMessages(prev => [...prev, botResponse]);
       setIsTyping(false);
@@ -266,6 +336,18 @@ const Chatbot = () => {
                           )}
                         >
                           {message.text}
+                          
+                          {/* Navigation button for relevant responses */}
+                          {message.navigationButton && (
+                            <Button
+                              onClick={() => scrollToSection(message.navigationButton!.sectionId)}
+                              size="sm"
+                              className="mt-3 bg-blue-600 hover:bg-blue-700 text-white text-xs flex items-center gap-1"
+                            >
+                              <ExternalLink className="h-3 w-3" />
+                              {message.navigationButton.text}
+                            </Button>
+                          )}
                           
                           {/* Message actions for bot messages */}
                           {message.sender === "bot" && (

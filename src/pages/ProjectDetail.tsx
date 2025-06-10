@@ -1,5 +1,6 @@
+
 import { useParams, useNavigate } from "react-router-dom";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import {
   ArrowLeft,
   Folder,
@@ -9,181 +10,67 @@ import {
   Users,
   Target,
   Lightbulb,
+  Clock,
+  UserCheck,
+  Zap,
+  BookOpen,
+  AlertTriangle,
+  CheckCircle,
+  GraduationCap,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { supabase } from "@/integrations/supabase/client";
+import { getTechIcon } from "@/utils/techIcons";
 
-const projectsData = [
-  {
-    id: "engzine",
-    title: "Engzine",
-    subtitle: "Digital Magazine Platform",
-    description:
-      "e-Magazine Website for the Department of English, St. Joseph's College, Trichy.",
-    detailedDescription:
-      "Engzine is a comprehensive digital magazine platform designed specifically for the Department of English at St. Joseph's College, Trichy. The platform serves as a showcase for student literary works, faculty publications, and departmental achievements.",
-    tech: ["HTML", "CSS", "JavaScript", "Responsive Design"],
-    liveLink: "https://sjctni.edu/Department/ENGZINE",
-    repoLink: null,
-    image: "/Projects/engzine.jpeg",
-    duration: "2 months",
-    role: "Front End Developer",
-    team: "Solo Project",
-    story:
-      "My English professor approached me with the idea of turning the department’s print magazine into a modern website. The goal was to make it more accessible, showcase student and faculty work, and reach a wider audience. We also aimed to get an ISSN to officially recognize it as a digital publication.",
-    challenges: [
-      "Creating an intuitive content management system for non-technical users",
-      "Designing a responsive layout that works across all devices",
-      "Implementing SEO optimization to increase visibility",
-      "Ensuring fast loading times with image-heavy content",
-    ],
-    solutions: [
-      "Used CSS Grid and Flexbox for responsive design",
-      "Implemented proper meta tags and structured data",
-      "Optimized images using modern compression techniques",
-      "Took steps to protect team images from easy downloading",
-    ],
-    learnings: [
-      "Gained experience in client communication and requirement gathering",
-      "Learned the importance of user-centered design",
-      "Developed skills in performance optimization",
-      "Understanding of content management best practices",
-    ],
-    features: [
-      "Responsive magazine layout",
-      "Article categorization system",
-      "Social media integration",
-      "Archive system for past issues",
-    ],
-  },
-  {
-    id: "mergen",
-    title: "Mergen",
-    subtitle: "Academic Journal Platform",
-    description:
-      "e-Journal Website for the Department of English, St. Joseph's College, Trichy.",
-    detailedDescription:
-      "Mergen is an academic journal platform that facilitates the publication and distribution of scholarly articles, research papers, and academic discussions within the English department.",
-    tech: ["HTML", "CSS", "JavaScript", "Bootstrap"],
-    liveLink: "https://sjctni.edu/Department/Mergen",
-    repoLink: "https://github.com/joerakesh/mergen",
-    image: "/Projects/mergen.jpg",
-    duration: "1 months",
-    role: "Frontend Developer",
-    team: "Solo Project",
-    story:
-      "Following the success of Engzine, the department requested an academic journal platform to complement their magazine. They needed a more formal, research-oriented platform that could handle peer review processes and maintain academic standards.",
-    challenges: [
-      "Implementing a peer review workflow system",
-      "Designing a professional academic interface",
-    ],
-    solutions: ["Used a clean, professional design with academic conventions"],
-    learnings: ["Understanding of academic publishing workflows"],
-    features: [
-      "Article submission system",
-      "Peer review workflow",
-      "User role management",
-      "Document versioning",
-      "Citation management",
-    ],
-  },
-  {
-    id: "ai-interview",
-    title: "AI Interview",
-    subtitle: "AI-Powered Interview Preparation",
-    description:
-      "An AI Platform for preparing Mock Interview sessions with real-time feedback.",
-    detailedDescription:
-      "AI Interview is a comprehensive platform that uses artificial intelligence to conduct mock interviews, providing real-time feedback and personalized improvement suggestions to help users prepare for job interviews.",
-    tech: ["Next.js", "Firebase", "Gemini AI", "Vapi AI", "TailwindCSS"],
-    liveLink: "https://interview-ai-sooty.vercel.app/",
-    repoLink: "https://github.com/Joerakesh/interview_ai",
-    image: "/Projects/ai_interview.png",
-    duration: "3 weeks",
-    role: "Full Stack Developer",
-    team: "Solo Project",
-    story:
-      "Inspired by the challenges many students face in interview preparation, I wanted to create an accessible AI-powered platform that could provide personalized interview practice. The goal was to democratize interview preparation and help reduce anxiety through repeated practice. I started with a tutorial from JavaScript Mastery to lay the foundation, but soon encountered real-world challenges—like generating custom APIs and integrating Vapi AI for voice interaction. Working through these hurdles gave me a deeper understanding of AI workflows and full-stack development.",
-    challenges: [
-      "Integrating multiple AI services for natural conversation",
-      "Creating realistic interview scenarios",
-      "Implementing real-time speech recognition and synthesis",
-      "Designing an effective feedback system",
-    ],
-    solutions: [
-      "Combined Gemini AI for question generation with Vapi AI for voice processing",
-      "Created a comprehensive question bank across different domains",
-      "Implemented WebRTC for real-time audio processing",
-      "Developed an analytics dashboard for performance tracking",
-    ],
-    learnings: [
-      "Advanced knowledge of AI integration in web applications",
-      "Experience with real-time audio processing",
-      "Understanding of user experience in AI interactions",
-      "Skills in performance analytics and data visualization",
-    ],
-    features: [
-      "AI-powered mock interviews",
-      "Real-time feedback system",
-      "Performance analytics",
-      "Custom interview scenarios",
-      "Progress tracking",
-    ],
-  },
-  {
-    id: "movie-app",
-    title: "Movie App",
-    subtitle: "Mobile Movie Discovery Platform",
-    description:
-      "A comprehensive Movie App that displays detailed movie information with user favorites.",
-    detailedDescription:
-      "A mobile-first movie discovery application built with React Native that provides users with comprehensive movie information, ratings, reviews, and personal watchlist management.",
-    tech: ["React Native", "TailwindCSS", "TMDB API", "AppWrite"],
-    liveLink:
-      "https://expo.dev/accounts/joerakesh/projects/movie-app/builds/6b6333f0-5de2-45c0-925f-af2059f187b1",
-    repoLink: "https://github.com/Joerakesh/movie-app",
-    image: "/Projects/movie-app.jpg",
-    duration: "3 months",
-    role: "Mobile Developer",
-    team: "Solo Project",
-    story:
-      "This project was born from my passion for movies and mobile development. I wanted to create a seamless movie discovery experience that could work offline and provide personalized recommendations based on user preferences.",
-    challenges: [
-      "Handling large amounts of movie data efficiently",
-      "Implementing smooth infinite scrolling",
-      "Creating an intuitive mobile interface",
-      "Managing offline functionality and data caching",
-    ],
-    solutions: [
-      "Implemented pagination and lazy loading for performance",
-      "Used FlatList with optimized rendering for smooth scrolling",
-      "Designed a mobile-first interface with intuitive gestures",
-      "Implemented AsyncStorage for offline data persistence",
-    ],
-    learnings: [
-      "Mobile development best practices with React Native",
-      "API integration and data management strategies",
-      "Mobile UI/UX design principles",
-      "Performance optimization for mobile applications",
-    ],
-    features: [
-      "Movie search and discovery",
-      "Detailed movie information",
-      "Personal watchlist",
-      "Offline functionality",
-      "User ratings and reviews",
-    ],
-  },
-];
+interface Project {
+  id: string;
+  title: string;
+  description: string;
+  tech: string[];
+  live_link?: string;
+  repo_link?: string;
+  image: string;
+  featured: boolean;
+  duration?: string;
+  role?: string;
+  team?: string;
+  key_features?: string[];
+  story?: string;
+  challenges?: string;
+  solutions?: string;
+  learnings?: string;
+}
 
 const ProjectDetail = () => {
   const { id } = useParams();
   const navigate = useNavigate();
-  const project = projectsData.find((proj) => proj.id === id);
+  const [project, setProject] = useState<Project | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "smooth" });
-  }, []);
+    if (id) {
+      fetchProject();
+    }
+  }, [id]);
+
+  const fetchProject = async () => {
+    try {
+      const { data, error } = await supabase
+        .from("projects")
+        .select("*")
+        .eq("id", id)
+        .single();
+
+      if (error) throw error;
+      setProject(data);
+    } catch (error) {
+      console.error("Error fetching project:", error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   const handleBackClick = () => {
     const savedPosition = sessionStorage.getItem("portfolioScrollPosition");
@@ -199,6 +86,17 @@ const ProjectDetail = () => {
       }, 100);
     }
   };
+
+  if (isLoading) {
+    return (
+      <div className="min-h-screen bg-dark flex items-center justify-center px-4">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-primary mx-auto"></div>
+          <p className="mt-4 text-white">Loading project details...</p>
+        </div>
+      </div>
+    );
+  }
 
   if (!project) {
     return (
@@ -237,7 +135,7 @@ const ProjectDetail = () => {
                 {project.title}
               </h1>
               <p className="text-primary text-sm md:text-base">
-                {project.subtitle}
+                {project.description}
               </p>
             </div>
           </div>
@@ -259,20 +157,22 @@ const ProjectDetail = () => {
             </Card>
 
             <div className="flex flex-col sm:flex-row gap-3">
-              <a
-                href={project.liveLink}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex-1"
-              >
-                <Button className="w-full bg-primary hover:bg-primary/90">
-                  <ExternalLink className="w-4 h-4 mr-2" />
-                  View Live Project
-                </Button>
-              </a>
-              {project.repoLink && (
+              {project.live_link && (
                 <a
-                  href={project.repoLink}
+                  href={project.live_link}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex-1"
+                >
+                  <Button className="w-full bg-primary hover:bg-primary/90">
+                    <ExternalLink className="w-4 h-4 mr-2" />
+                    View Live Project
+                  </Button>
+                </a>
+              )}
+              {project.repo_link && (
+                <a
+                  href={project.repo_link}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex-1 sm:flex-none"
@@ -291,6 +191,7 @@ const ProjectDetail = () => {
 
           {/* Project Details */}
           <div className="space-y-4 md:space-y-6">
+            {/* Project Overview */}
             <Card className="bg-dark-light border-primary/20">
               <CardHeader className="pb-3 md:pb-6">
                 <CardTitle className="text-white flex items-center gap-2 text-lg md:text-xl">
@@ -300,33 +201,49 @@ const ProjectDetail = () => {
               </CardHeader>
               <CardContent className="space-y-4">
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 md:gap-4">
-                  <div>
-                    <p className="text-white/60 text-sm">Duration</p>
-                    <p className="text-white font-medium text-sm md:text-base">
-                      {project.duration}
-                    </p>
-                  </div>
-                  <div>
-                    <p className="text-white/60 text-sm">Role</p>
-                    <p className="text-white font-medium text-sm md:text-base">
-                      {project.role}
-                    </p>
-                  </div>
-                  <div>
-                    <p className="text-white/60 text-sm">Team</p>
-                    <p className="text-white font-medium text-sm md:text-base">
-                      {project.team}
-                    </p>
-                  </div>
+                  {project.duration && (
+                    <div>
+                      <div className="flex items-center gap-2 text-white/60 text-sm mb-1">
+                        <Clock className="w-4 h-4" />
+                        Duration
+                      </div>
+                      <p className="text-white font-medium text-sm md:text-base">
+                        {project.duration}
+                      </p>
+                    </div>
+                  )}
+                  {project.role && (
+                    <div>
+                      <div className="flex items-center gap-2 text-white/60 text-sm mb-1">
+                        <UserCheck className="w-4 h-4" />
+                        Role
+                      </div>
+                      <p className="text-white font-medium text-sm md:text-base">
+                        {project.role}
+                      </p>
+                    </div>
+                  )}
+                  {project.team && (
+                    <div>
+                      <div className="flex items-center gap-2 text-white/60 text-sm mb-1">
+                        <Users className="w-4 h-4" />
+                        Team
+                      </div>
+                      <p className="text-white font-medium text-sm md:text-base">
+                        {project.team}
+                      </p>
+                    </div>
+                  )}
                 </div>
                 <div>
                   <p className="text-white/80 text-sm md:text-base leading-relaxed">
-                    {project.detailedDescription}
+                    {project.description}
                   </p>
                 </div>
               </CardContent>
             </Card>
 
+            {/* Technologies Used */}
             <Card className="bg-dark-light border-primary/20">
               <CardHeader className="pb-3 md:pb-6">
                 <CardTitle className="text-white text-lg md:text-xl">
@@ -334,126 +251,145 @@ const ProjectDetail = () => {
                 </CardTitle>
               </CardHeader>
               <CardContent>
-                <div className="flex flex-wrap gap-2">
+                <div className="flex flex-wrap gap-3">
                   {project.tech.map((tech) => (
-                    <span
+                    <div
                       key={tech}
-                      className="bg-primary/20 text-primary px-2 md:px-3 py-1 rounded-full text-xs md:text-sm"
+                      className="flex items-center gap-2 bg-primary/20 text-primary px-3 py-2 rounded-full text-xs md:text-sm"
                     >
+                      <img
+                        src={getTechIcon(tech)}
+                        alt={tech}
+                        className="w-4 h-4"
+                        onError={(e) => {
+                          (e.target as HTMLImageElement).style.display = 'none';
+                        }}
+                      />
                       {tech}
-                    </span>
+                    </div>
                   ))}
                 </div>
               </CardContent>
             </Card>
 
+            {/* Key Features */}
+            {project.key_features && project.key_features.length > 0 && (
+              <Card className="bg-dark-light border-primary/20">
+                <CardHeader className="pb-3 md:pb-6">
+                  <CardTitle className="text-white flex items-center gap-2 text-lg md:text-xl">
+                    <Zap className="w-5 h-5 text-primary" />
+                    Key Features
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <ul className="space-y-2">
+                    {project.key_features.map((feature, index) => (
+                      <li key={index} className="flex items-start gap-2 text-white/80 text-sm md:text-base">
+                        <CheckCircle className="w-4 h-4 text-green-400 mt-0.5 flex-shrink-0" />
+                        {feature}
+                      </li>
+                    ))}
+                  </ul>
+                </CardContent>
+              </Card>
+            )}
+
+            {/* Project Status */}
             <Card className="bg-dark-light border-primary/20">
               <CardHeader className="pb-3 md:pb-6">
                 <CardTitle className="text-white text-lg md:text-xl">
-                  Key Features
+                  Project Status
                 </CardTitle>
               </CardHeader>
               <CardContent>
-                <ul className="space-y-2">
-                  {project.features.map((feature, index) => (
-                    <li
-                      key={index}
-                      className="text-white/80 text-sm md:text-base flex items-start gap-2"
-                    >
-                      <span className="text-primary mt-1">•</span>
-                      {feature}
-                    </li>
-                  ))}
-                </ul>
+                <div className="flex items-center gap-2">
+                  <span className={`px-3 py-1 rounded-full text-sm ${
+                    project.featured 
+                      ? 'bg-green-500/20 text-green-400' 
+                      : 'bg-gray-500/20 text-gray-400'
+                  }`}>
+                    {project.featured ? 'Featured Project' : 'Regular Project'}
+                  </span>
+                </div>
               </CardContent>
             </Card>
           </div>
         </div>
 
-        {/* Story Section */}
-        <div className="mt-8 md:mt-12 space-y-6 md:space-y-8">
-          <Card className="bg-dark-light border-primary/20">
-            <CardHeader>
-              <CardTitle className="text-white flex items-center gap-2 text-xl md:text-2xl">
-                <Users className="w-6 h-6 text-primary" />
-                The Story Behind the Project
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <p className="text-white/80 text-sm md:text-base leading-relaxed">
-                {project.story}
-              </p>
-            </CardContent>
-          </Card>
+        {/* Additional Sections */}
+        {(project.story || project.challenges || project.solutions || project.learnings) && (
+          <div className="mt-12 space-y-6">
+            {/* The Story Behind the Project */}
+            {project.story && (
+              <Card className="bg-dark-light border-primary/20">
+                <CardHeader>
+                  <CardTitle className="text-white flex items-center gap-2 text-lg md:text-xl">
+                    <BookOpen className="w-5 h-5 text-primary" />
+                    The Story Behind the Project
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <p className="text-white/80 text-sm md:text-base leading-relaxed">
+                    {project.story}
+                  </p>
+                </CardContent>
+              </Card>
+            )}
 
-          <div className="grid md:grid-cols-2 gap-6">
-            <Card className="bg-dark-light border-primary/20">
-              <CardHeader>
-                <CardTitle className="text-white flex items-center gap-2 text-lg md:text-xl">
-                  <Target className="w-5 h-5 text-red-400" />
-                  Challenges Faced
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <ul className="space-y-3">
-                  {project.challenges.map((challenge, index) => (
-                    <li
-                      key={index}
-                      className="text-white/80 text-sm md:text-base flex items-start gap-2"
-                    >
-                      <span className="text-red-400 mt-1">•</span>
-                      {challenge}
-                    </li>
-                  ))}
-                </ul>
-              </CardContent>
-            </Card>
+            <div className="grid lg:grid-cols-2 gap-6">
+              {/* Challenges Faced */}
+              {project.challenges && (
+                <Card className="bg-dark-light border-primary/20">
+                  <CardHeader>
+                    <CardTitle className="text-white flex items-center gap-2 text-lg md:text-xl">
+                      <AlertTriangle className="w-5 h-5 text-yellow-400" />
+                      Challenges Faced
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <p className="text-white/80 text-sm md:text-base leading-relaxed">
+                      {project.challenges}
+                    </p>
+                  </CardContent>
+                </Card>
+              )}
 
-            <Card className="bg-dark-light border-primary/20">
-              <CardHeader>
-                <CardTitle className="text-white flex items-center gap-2 text-lg md:text-xl">
-                  <Lightbulb className="w-5 h-5 text-yellow-400" />
-                  Solutions Implemented
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <ul className="space-y-3">
-                  {project.solutions.map((solution, index) => (
-                    <li
-                      key={index}
-                      className="text-white/80 text-sm md:text-base flex items-start gap-2"
-                    >
-                      <span className="text-yellow-400 mt-1">•</span>
-                      {solution}
-                    </li>
-                  ))}
-                </ul>
-              </CardContent>
-            </Card>
+              {/* Solutions Implemented */}
+              {project.solutions && (
+                <Card className="bg-dark-light border-primary/20">
+                  <CardHeader>
+                    <CardTitle className="text-white flex items-center gap-2 text-lg md:text-xl">
+                      <Lightbulb className="w-5 h-5 text-blue-400" />
+                      Solutions Implemented
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <p className="text-white/80 text-sm md:text-base leading-relaxed">
+                      {project.solutions}
+                    </p>
+                  </CardContent>
+                </Card>
+              )}
+            </div>
+
+            {/* What I Learned */}
+            {project.learnings && (
+              <Card className="bg-dark-light border-primary/20">
+                <CardHeader>
+                  <CardTitle className="text-white flex items-center gap-2 text-lg md:text-xl">
+                    <GraduationCap className="w-5 h-5 text-green-400" />
+                    What I Learned
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <p className="text-white/80 text-sm md:text-base leading-relaxed">
+                    {project.learnings}
+                  </p>
+                </CardContent>
+              </Card>
+            )}
           </div>
-
-          <Card className="bg-dark-light border-primary/20">
-            <CardHeader>
-              <CardTitle className="text-white flex items-center gap-2 text-xl md:text-2xl">
-                <Calendar className="w-6 h-6 text-green-400" />
-                What I Learned
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <ul className="grid md:grid-cols-2 gap-3">
-                {project.learnings.map((learning, index) => (
-                  <li
-                    key={index}
-                    className="text-white/80 text-sm md:text-base flex items-start gap-2"
-                  >
-                    <span className="text-green-400 mt-1">•</span>
-                    {learning}
-                  </li>
-                ))}
-              </ul>
-            </CardContent>
-          </Card>
-        </div>
+        )}
       </div>
     </div>
   );
