@@ -1,5 +1,6 @@
+
 import { useParams, useNavigate } from "react-router-dom";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import {
   ArrowLeft,
   Award,
@@ -8,107 +9,83 @@ import {
   ExternalLink,
   Download,
   Share2,
+  Clock,
+  CalendarDays,
+  Shield,
+  BookOpen,
+  Heart,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useToast } from "@/hooks/use-toast";
+import { supabase } from "@/integrations/supabase/client";
 
-const certificationsData = [
-  {
-    id: "chatgpt-web-developers",
-    title: "ChatGPT for Web Developers",
-    issuer: "LinkedIn",
-    date: "2024",
-    image: "/Certifications/chatgpt-web-developers.jpeg",
-    skills: ["Web Development", "ChatGPT"],
-    description:
-      "Learned to use ChatGPT to generate and optimize web code, enhance UI with CSS, and build AI-powered apps using JavaScript and React.",
-    credentialId:
-      "c5c454abec61af420b66faa15bf7230a4bf1113fe8b994f6891314d5918385a4",
-    status: "Completed",
-    personalNote:
-      "Really interesting course—I took notes on how to use ChatGPT to streamline front-end development tasks, write cleaner JavaScript, and even prototype full components in React. The sections on AI-assisted debugging and CSS styling shortcuts were especially practical.",
-    completionDate: "July 11, 2024",
-    validUntil: "Lifetime",
-    courseHours: "2 hours 29 minutes",
-    certUrl:
-      "https://www.linkedin.com/learning/certificates/c5c454abec61af420b66faa15bf7230a4bf1113fe8b994f6891314d5918385a4?lipi=urn%3Ali%3Apage%3Ad_flagship3_profile_view_base_certifications_details%3BNicBxWcmRmyyBP%2FNsJBkEQ%3D%3D",
-  },
-  {
-    id: "microsoft-career-essentials",
-    title:
-      "Career Essentials in Software Development by Microsoft and LinkedIn",
-    issuer: "Microsoft & LinkedIn",
-    date: "2024",
-    image: "/Certifications/microsoft-career-essentials.jpeg",
-    skills: ["Software Development", "Programming"],
-    description:
-      "Comprehensive program covering essential software development skills and industry best practices.",
-    credentialId:
-      "fffd0e8209c878c0ef3d38081d5c1ce4fb48ef5037303bc242ab57ebfec41e2a",
-    status: "Completed",
-    personalNote:
-      "Took detailed notes on software development fundamentals, debugging techniques, and programming best practices. The practical projects helped reinforce key concepts like modular coding and clean architecture. The real value came from seeing how these skills apply across both front-end and back-end development.",
-    completionDate: "July 17, 2024",
-    validUntil: "Lifetime",
-    courseHours: "8 hours 20 minutes",
-    certUrl:
-      "https://www.linkedin.com/learning/certificates/fffd0e8209c878c0ef3d38081d5c1ce4fb48ef5037303bc242ab57ebfec41e2a",
-  },
-  {
-    id: "github-professional-certificate",
-    title: "Career Essentials in GitHub Professional Certificate",
-    issuer: "GitHub & LinkedIn",
-    date: "2025",
-    image: "/Certifications/github-professional-certificate.jpeg",
-    skills: ["GitHub", "Version Control"],
-    description:
-      "Hands-on program covering GitHub fundamentals, version control concepts, collaborative workflows, and industry best practices for modern software development.",
-    credentialId:
-      "8c93ad5893f125dfb7cc8876bd43e6f710b47226d791afddccd06ac0b8655728",
-    status: "Completed",
-    personalNote:
-      "Really insightful course—took a lot of notes on branching strategies, pull request workflows, and how teams manage collaboration on GitHub. The section on handling merge conflicts and reviewing code effectively stood out the most to me.",
-    completionDate: "May 26, 2025",
-    validUntil: "Lifetime",
-    courseHours: "4 hours 18 minutes",
-    certUrl:
-      "https://www.linkedin.com/learning/certificates/8c93ad5893f125dfb7cc8876bd43e6f710b47226d791afddccd06ac0b8655728",
-  },
-];
+interface Certificate {
+  id: string;
+  title: string;
+  issuer: string;
+  date: string;
+  image: string;
+  skills: string[];
+  description: string;
+  credential_id: string;
+  status: string;
+  completion_date?: string;
+  valid_until?: string;
+  course_hours?: number;
+  verify_link?: string;
+  personal_note?: string;
+}
 
 const CertificateDetail = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const { toast } = useToast();
-  const certificate = certificationsData.find((cert) => cert.id === id);
+  const [certificate, setCertificate] = useState<Certificate | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    // Scroll to top when component mounts
     window.scrollTo({ top: 0, behavior: "smooth" });
-  }, []);
+    if (id) {
+      fetchCertificate();
+    }
+  }, [id]);
+
+  const fetchCertificate = async () => {
+    try {
+      const { data, error } = await supabase
+        .from("certificates")
+        .select("*")
+        .eq("id", id)
+        .single();
+
+      if (error) throw error;
+      setCertificate(data);
+    } catch (error) {
+      console.error("Error fetching certificate:", error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   const handleBackClick = () => {
-    // Get stored scroll position
     const savedPosition = sessionStorage.getItem("portfolioScrollPosition");
-
-    // Navigate back to home using React Router
     navigate("/");
 
-    // After navigation, restore scroll position
     if (savedPosition) {
       setTimeout(() => {
         window.scrollTo({
           top: parseInt(savedPosition, 10),
           behavior: "smooth",
         });
-        // Clean up stored position
         sessionStorage.removeItem("portfolioScrollPosition");
       }, 100);
     }
   };
 
   const handleDownload = () => {
+    if (!certificate) return;
+    
     const imageUrl = certificate.image;
     const fileName = `${certificate.title.replace(
       /\s+/g,
@@ -142,6 +119,8 @@ const CertificateDetail = () => {
   };
 
   const handleShare = async () => {
+    if (!certificate) return;
+    
     const shareUrl = window.location.href;
     const shareText = `Check out my ${certificate.title} certificate from ${certificate.issuer}!`;
 
@@ -157,16 +136,14 @@ const CertificateDetail = () => {
           description: "Certificate link has been shared.",
         });
       } catch (error) {
-        // If sharing fails, fall back to copying to clipboard
         handleCopyToClipboard(shareUrl);
       }
     } else {
-      // Fallback to copying to clipboard
       handleCopyToClipboard(shareUrl);
     }
   };
 
-  const handleCopyToClipboard = async (text) => {
+  const handleCopyToClipboard = async (text: string) => {
     try {
       await navigator.clipboard.writeText(text);
       toast({
@@ -181,6 +158,30 @@ const CertificateDetail = () => {
       });
     }
   };
+
+  const formatDate = (dateString?: string) => {
+    if (!dateString) return null;
+    try {
+      return new Date(dateString).toLocaleDateString('en-US', {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric'
+      });
+    } catch {
+      return dateString;
+    }
+  };
+
+  if (isLoading) {
+    return (
+      <div className="min-h-screen bg-dark flex items-center justify-center px-4">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-primary mx-auto"></div>
+          <p className="mt-4 text-white">Loading certificate details...</p>
+        </div>
+      </div>
+    );
+  }
 
   if (!certificate) {
     return (
@@ -235,7 +236,7 @@ const CertificateDetail = () => {
                 <img
                   src={certificate.image}
                   alt={certificate.title}
-                  className="w-full h-85 "
+                  className="w-full h-85"
                 />
               </CardContent>
             </Card>
@@ -271,49 +272,102 @@ const CertificateDetail = () => {
               <CardContent className="space-y-4">
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 md:gap-4">
                   <div>
-                    <p className="text-white/60 text-sm">Status</p>
+                    <div className="flex items-center gap-2 text-white/60 text-sm mb-1">
+                      <Shield className="w-4 h-4" />
+                      Status
+                    </div>
                     <p className="text-white font-medium text-sm md:text-base">
                       {certificate.status}
                     </p>
                   </div>
                   <div>
-                    <p className="text-white/60 text-sm">Completion Date</p>
+                    <div className="flex items-center gap-2 text-white/60 text-sm mb-1">
+                      <Calendar className="w-4 h-4" />
+                      Issue Date
+                    </div>
                     <p className="text-white font-medium text-sm md:text-base">
-                      {certificate.completionDate}
-                    </p>
-                  </div>
-                  <div>
-                    <p className="text-white/60 text-sm">Valid Until</p>
-                    <p className="text-white font-medium text-sm md:text-base">
-                      {certificate.validUntil}
-                    </p>
-                  </div>
-                  <div>
-                    <p className="text-white/60 text-sm">Course Hours</p>
-                    <p className="text-white font-medium text-sm md:text-base">
-                      {certificate.courseHours}
+                      {certificate.date}
                     </p>
                   </div>
                 </div>
+
+                {(certificate.completion_date || certificate.valid_until || certificate.course_hours) && (
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 md:gap-4">
+                    {certificate.completion_date && (
+                      <div>
+                        <div className="flex items-center gap-2 text-white/60 text-sm mb-1">
+                          <CheckCircle className="w-4 h-4" />
+                          Completion Date
+                        </div>
+                        <p className="text-white font-medium text-sm md:text-base">
+                          {formatDate(certificate.completion_date)}
+                        </p>
+                      </div>
+                    )}
+                    {certificate.valid_until && (
+                      <div>
+                        <div className="flex items-center gap-2 text-white/60 text-sm mb-1">
+                          <CalendarDays className="w-4 h-4" />
+                          Valid Until
+                        </div>
+                        <p className="text-white font-medium text-sm md:text-base">
+                          {formatDate(certificate.valid_until)}
+                        </p>
+                      </div>
+                    )}
+                    {certificate.course_hours && (
+                      <div className="sm:col-span-2">
+                        <div className="flex items-center gap-2 text-white/60 text-sm mb-1">
+                          <Clock className="w-4 h-4" />
+                          Course Hours
+                        </div>
+                        <p className="text-white font-medium text-sm md:text-base">
+                          {certificate.course_hours} hours
+                        </p>
+                      </div>
+                    )}
+                  </div>
+                )}
+
                 <div>
                   <p className="text-white/60 text-sm">Credential ID</p>
                   <p className="text-white font-medium text-sm md:text-base break-all">
-                    {certificate.credentialId}
+                    {certificate.credential_id}
                   </p>
                 </div>
-                <Button
-                  variant="outline"
-                  className="w-full border-primary/20 text-primary hover:bg-primary/10"
-                >
-                  <ExternalLink className="w-4 h-4 mr-2" />
-                  Verify Certificate
-                </Button>
+
+                {certificate.verify_link ? (
+                  <a
+                    href={certificate.verify_link}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="block"
+                  >
+                    <Button
+                      variant="outline"
+                      className="w-full border-primary/20 text-primary hover:bg-primary/10"
+                    >
+                      <ExternalLink className="w-4 h-4 mr-2" />
+                      Verify Certificate
+                    </Button>
+                  </a>
+                ) : (
+                  <Button
+                    variant="outline"
+                    className="w-full border-primary/20 text-primary hover:bg-primary/10"
+                    disabled
+                  >
+                    <ExternalLink className="w-4 h-4 mr-2" />
+                    Verify Certificate
+                  </Button>
+                )}
               </CardContent>
             </Card>
 
             <Card className="bg-dark-light border-primary/20">
               <CardHeader className="pb-3 md:pb-6">
-                <CardTitle className="text-white text-lg md:text-xl">
+                <CardTitle className="text-white flex items-center gap-2 text-lg md:text-xl">
+                  <BookOpen className="w-5 h-5 text-primary" />
                   Description
                 </CardTitle>
               </CardHeader>
@@ -344,18 +398,21 @@ const CertificateDetail = () => {
               </CardContent>
             </Card>
 
-            <Card className="bg-dark-light border-primary/20">
-              <CardHeader className="pb-3 md:pb-6">
-                <CardTitle className="text-white text-lg md:text-xl">
-                  Personal Note
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <p className="text-white/80 italic text-sm md:text-base leading-relaxed">
-                  "{certificate.personalNote}"
-                </p>
-              </CardContent>
-            </Card>
+            {certificate.personal_note && (
+              <Card className="bg-dark-light border-primary/20">
+                <CardHeader className="pb-3 md:pb-6">
+                  <CardTitle className="text-white flex items-center gap-2 text-lg md:text-xl">
+                    <Heart className="w-5 h-5 text-red-400" />
+                    Personal Note
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <p className="text-white/80 text-sm md:text-base leading-relaxed">
+                    {certificate.personal_note}
+                  </p>
+                </CardContent>
+              </Card>
+            )}
           </div>
         </div>
       </div>
