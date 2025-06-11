@@ -99,6 +99,7 @@ export type Database = {
           key_features: string[] | null
           learnings: string | null
           live_link: string | null
+          order_position: number | null
           repo_link: string | null
           role: string | null
           solutions: string | null
@@ -119,6 +120,7 @@ export type Database = {
           key_features?: string[] | null
           learnings?: string | null
           live_link?: string | null
+          order_position?: number | null
           repo_link?: string | null
           role?: string | null
           solutions?: string | null
@@ -139,6 +141,7 @@ export type Database = {
           key_features?: string[] | null
           learnings?: string | null
           live_link?: string | null
+          order_position?: number | null
           repo_link?: string | null
           role?: string | null
           solutions?: string | null
@@ -147,6 +150,30 @@ export type Database = {
           tech?: string[]
           title?: string
           updated_at?: string
+        }
+        Relationships: []
+      }
+      skills: {
+        Row: {
+          category: string
+          created_at: string
+          id: string
+          name: string
+          proficiency: number
+        }
+        Insert: {
+          category: string
+          created_at?: string
+          id?: string
+          name: string
+          proficiency?: number
+        }
+        Update: {
+          category?: string
+          created_at?: string
+          id?: string
+          name?: string
+          proficiency?: number
         }
         Relationships: []
       }
