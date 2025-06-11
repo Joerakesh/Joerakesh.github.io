@@ -15,6 +15,7 @@ interface Project {
   repo_link?: string;
   image: string;
   featured: boolean;
+  order_position?: number;
 }
 
 const ProjectSkeleton = () => (
@@ -52,6 +53,7 @@ const Projects = () => {
         .from("projects")
         .select("*")
         .eq("featured", true)
+        .order("order_position", { ascending: true, nullsFirst: false })
         .order("created_at", { ascending: false });
 
       if (error) throw error;

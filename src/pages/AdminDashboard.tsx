@@ -1,17 +1,17 @@
-
 import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Switch } from "@/components/ui/switch";
-import { LogOut, Plus, FolderOpen, Award, BarChart3, Settings, Sun, Moon, User, Eye } from "lucide-react";
+import { LogOut, Plus, FolderOpen, Award, BarChart3, Settings, Sun, Moon, User, Eye, TrendingUp } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { useTheme } from "@/components/ThemeProvider";
 import ProjectsManager from "@/components/admin/ProjectsManager";
 import CertificatesManager from "@/components/admin/CertificatesManager";
 import AdminStats from "@/components/admin/AdminStats";
 import PortfolioAnalytics from "@/components/admin/PortfolioAnalytics";
+import SkillsManager from "@/components/admin/SkillsManager";
 
 const AdminDashboard = () => {
   const [user, setUser] = useState(null);
@@ -126,7 +126,7 @@ const AdminDashboard = () => {
 
       <main className="container mx-auto px-6 py-8">
         <Tabs defaultValue="overview" className="space-y-6">
-          <TabsList className="grid w-full grid-cols-4 bg-muted">
+          <TabsList className="grid w-full grid-cols-5 bg-muted">
             <TabsTrigger 
               value="overview" 
               className="data-[state=active]:bg-background data-[state=active]:text-foreground text-muted-foreground"
@@ -142,6 +142,13 @@ const AdminDashboard = () => {
               Projects
             </TabsTrigger>
             <TabsTrigger 
+              value="skills" 
+              className="data-[state=active]:bg-background data-[state=active]:text-foreground text-muted-foreground"
+            >
+              <Settings className="w-4 h-4 mr-2" />
+              Skills
+            </TabsTrigger>
+            <TabsTrigger 
               value="certificates" 
               className="data-[state=active]:bg-background data-[state=active]:text-foreground text-muted-foreground"
             >
@@ -152,7 +159,7 @@ const AdminDashboard = () => {
               value="analytics" 
               className="data-[state=active]:bg-background data-[state=active]:text-foreground text-muted-foreground"
             >
-              <Settings className="w-4 h-4 mr-2" />
+              <TrendingUp className="w-4 h-4 mr-2" />
               Analytics
             </TabsTrigger>
           </TabsList>
@@ -275,6 +282,10 @@ const AdminDashboard = () => {
 
           <TabsContent value="projects">
             <ProjectsManager />
+          </TabsContent>
+
+          <TabsContent value="skills">
+            <SkillsManager />
           </TabsContent>
 
           <TabsContent value="certificates">
