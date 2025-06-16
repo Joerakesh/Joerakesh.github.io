@@ -1,8 +1,16 @@
-
 import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { ArrowLeft, MapPin, Code, Briefcase, GraduationCap, Target, Heart, Github } from "lucide-react";
+import {
+  ArrowLeft,
+  MapPin,
+  Code,
+  Briefcase,
+  GraduationCap,
+  Target,
+  Heart,
+  Github,
+} from "lucide-react";
 import Chatbot from "@/components/Chatbot";
 
 const About = () => {
@@ -11,16 +19,16 @@ const About = () => {
   }, []);
 
   const journeyData = [
+    // {
+    //   year: "Feb 2025 - Present",
+    //   title: "Full Stack Engineer",
+    //   company: "Catalyst by Zoho",
+    //   description:
+    //     "Currently working on scalable frontend banking services with multiple framework support. Contributing to developing SOEs, testing framework adapters, plugins, and developer tools.",
+    //   icon: Briefcase,
+    // },
     {
-      year: "Feb 2025 - Present",
-      title: "Full Stack Engineer",
-      company: "Catalyst by Zoho",
-      description:
-        "Currently working on scalable frontend banking services with multiple framework support. Contributing to developing SOEs, testing framework adapters, plugins, and developer tools.",
-      icon: Briefcase,
-    },
-    {
-      year: "Apr 2024",
+      year: "Jun 2023 - Present",
       title: "Bachelor's Degree Completed",
       company: "St. Joseph's College",
       description:
@@ -70,16 +78,30 @@ const About = () => {
   ];
 
   const skills = [
-    "JavaScript", "TypeScript", "React", "Node.js", "MongoDB", 
-    "Express", "HTML/CSS", "Git/GitHub", "Docker", "AWS", 
-    "Next.js", "Firebase", "Java", "Spring Boot"
+    "JavaScript",
+    "TypeScript",
+    "React",
+    "Node.js",
+    "MongoDB",
+    "Express",
+    "HTML/CSS",
+    "Git/GitHub",
+    "Docker",
+    "AWS",
+    "Next.js",
+    "Firebase",
+    "Java",
+    "Spring Boot",
   ];
 
   return (
     <div className="min-h-screen bg-background">
       <header className="py-8 px-4">
         <div className="container mx-auto">
-          <Link to="/" className="inline-flex items-center text-lg text-primary">
+          <Link
+            to="/"
+            className="inline-flex items-center text-lg text-primary"
+          >
             <ArrowLeft className="mr-2 h-5 w-5" />
             Back to Home
           </Link>
@@ -90,34 +112,40 @@ const About = () => {
         <div className="container mx-auto">
           <h1 className="text-4xl font-bold text-foreground mb-8">About Me</h1>
           <p className="text-xl text-primary mb-12">
-            I'm a passionate full-stack developer who loves creating elegant solutions to complex problems. Here's my journey and what drives me in the world of technology.
+            I'm a passionate full-stack developer who loves creating elegant
+            solutions to complex problems. Here's my journey and what drives me
+            in the world of technology.
           </p>
-          
+
           <div className="grid lg:grid-cols-2 gap-12">
             <div>
-              <h2 className="text-2xl font-bold text-foreground mb-6">Who I Am</h2>
+              <h2 className="text-2xl font-bold text-foreground mb-6">
+                Who I Am
+              </h2>
               <p className="text-lg text-foreground/80 mb-6">
-                I'm Muthukkarasu, a self-driven and career-oriented developer passionate about 
-                crafting high-quality, scalable web applications. I specialize in front-end 
-                development, building responsive websites and web interfaces.
+                I'm Joe Rakesh, a self-driven and career-oriented developer
+                passionate about crafting high-quality, scalable web
+                applications. I specialize in front-end development, building
+                responsive websites and web interfaces.
               </p>
               <p className="text-lg text-foreground/80 mb-6">
-                I primarily work with technologies like React.js, TypeScript, Java, Spring Boot 
-                and so on. I love coding in my free time and constantly seek opportunities to 
-                enhance my skills, which allowed me to work on new projects with like-minded people.
+                I primarily work with technologies like React.js, TypeScript,
+                Java, Spring Boot and so on. I love coding in my free time and
+                constantly seek opportunities to enhance my skills, which
+                allowed me to work on new projects with like-minded people.
               </p>
-              
-              <h3 className="text-xl font-bold text-foreground mb-4">Current Work</h3>
+
+              {/* <h3 className="text-xl font-bold text-foreground mb-4">Current Work</h3>
               <p className="text-lg text-foreground/80 mb-6">
                 I'm currently architecting a scalable frontend banking service with support for 
                 multiple frameworks on the Catalyst talent platform. Apart from that, I contribute 
                 to developing SOEs, testing framework adapters, plugins, and developer tools.
-              </p>
+              </p> */}
             </div>
             <div>
               <img
                 src="/Joe.jpg"
-                alt="Muthukkarasu"
+                alt="Joe Rakesh"
                 className="rounded-lg shadow-lg w-full max-w-md mx-auto"
               />
             </div>
@@ -133,7 +161,7 @@ const About = () => {
           </p>
           <div className="flex flex-wrap gap-3">
             {skills.map((skill, index) => (
-              <span 
+              <span
                 key={index}
                 className="px-4 py-2 bg-primary/10 text-primary rounded-full border border-primary/20 hover:bg-primary/20 transition-colors"
               >
@@ -141,25 +169,29 @@ const About = () => {
               </span>
             ))}
           </div>
-          
+
           <div className="mt-8 p-6 bg-background rounded-lg border border-primary/10">
             <div className="flex items-center gap-2 mb-4">
               <Github className="h-5 w-5 text-primary" />
-              <h3 className="text-xl font-bold text-foreground">GitHub Stats</h3>
+              <h3 className="text-xl font-bold text-foreground">
+                GitHub Stats
+              </h3>
             </div>
             <p className="text-foreground/80">
-              I believe in open source contribution as it is a great way to learn and contribute 
-              to the community. Check out more on my GitHub profile for detailed statistics and contributions.
+              I believe in open source contribution as it is a great way to
+              learn and contribute to the community. Check out more on my GitHub
+              profile for detailed statistics and contributions.
             </p>
           </div>
         </div>
       </section>
 
-      <section className="py-16 px-4 bg-dark">
+      {/* <section className="py-16 px-4 bg-dark">
         <div className="container mx-auto">
           <h2 className="text-3xl font-bold text-white mb-8">My Journey</h2>
           <p className="text-white/80 mb-12 text-lg">
-            Embracing my own journey, I strive to avoid comparisons and focus on taking small, meaningful steps every day.
+            Embracing my own journey, I strive to avoid comparisons and focus on
+            taking small, meaningful steps every day.
           </p>
           <div className="relative">
             <div className="absolute left-1/2 top-0 h-full w-[2px] bg-primary/20 transform -translate-x-1/2"></div>
@@ -177,14 +209,16 @@ const About = () => {
                     <item.icon className="h-6 w-6 text-primary" />
                   </div>
                   <div className="w-1/2 text-left pl-8">
-                    <p className="text-primary-light text-sm font-medium">{item.year}</p>
+                    <p className="text-primary-light text-sm font-medium">
+                      {item.year}
+                    </p>
                   </div>
                 </div>
               ))}
             </div>
           </div>
         </div>
-      </section>
+      </section> */}
 
       <section className="py-16 px-4">
         <div className="container mx-auto">
