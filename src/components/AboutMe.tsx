@@ -37,7 +37,8 @@ const AboutMe = () => {
 
     // Create an anchor element and trigger the download
     const link = document.createElement("a");
-    link.href = "/resume.pdf";
+    link.href =
+      "https://drive.google.com/file/d/1XvykZwD0xH4VIwoZ6OaBU_m0Gzk6qqis/view?usp=sharing";
     link.target = "_blank";
     link.download = "Joe_Rakesh_CV.pdf";
     document.body.appendChild(link);
@@ -92,7 +93,7 @@ const AboutMe = () => {
                 className="border-primary/20 text-primary hover:bg-primary/10 transition-all duration-300 button-glow"
                 onClick={handleDownloadCV}
               >
-                <Download className="w-4 h-4 mr-2" /> Download CV
+                {/* <Download className="w-4 h-4 mr-2" /> */} View Resume
               </Button>
               <Link to="/about">
                 <Button className="bg-primary hover:bg-primary/90 transition-all duration-300">
